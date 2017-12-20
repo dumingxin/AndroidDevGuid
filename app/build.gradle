@@ -6,6 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "name.dmx.androiddevguid"
         minSdkVersion 15
@@ -48,5 +49,5 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:1.0.0"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
     implementation "android.arch.persistence.room:rxjava2:1.0.0"
-
+    compile 'cn.bmob.android:bmob-sdk:3.5.5'
 }
