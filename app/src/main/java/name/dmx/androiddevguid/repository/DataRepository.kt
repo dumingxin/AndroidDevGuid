@@ -6,6 +6,7 @@ import com.hzzh.baselibrary.net.DefaultOkHttpClient
 import com.hzzh.baselibrary.net.transformer.SchedulerTransformer
 import io.reactivex.Observable
 import name.dmx.androiddevguid.model.AppInfo
+import name.dmx.androiddevguid.model.LibInfo
 import name.dmx.readhubclient.http.Api
 import name.dmx.readhubclient.http.ListResult
 import retrofit2.Retrofit
@@ -37,6 +38,12 @@ class DataRepository private constructor(private val context: Context) {
         return httpService.getAppList(bql, values)
     }
 
+    fun getLibList(pageIndex: Int,pageSize: Int):Observable<ListResult<LibInfo>>{
+        val bql="select libPackageName,count(*) as count from r_lib_apk group by libPackageName limit ?,? order by count desc"
+        val offset=pageIndex*pageSize
+        val values = "[$offset,$pageSize]"
+        return httpService.getLibList(bql, values)
+    }
 
     companion object {
         private var instance: DataRepository? = null
