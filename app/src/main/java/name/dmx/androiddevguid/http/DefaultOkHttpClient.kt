@@ -1,13 +1,18 @@
 package com.hzzh.baselibrary.net
 
 import android.content.Context
+import name.dmx.androiddevguid.BuildConfig
+import name.dmx.androiddevguid.R
 import okhttp3.OkHttpClient
 import java.security.KeyStore
 import java.security.SecureRandom
+import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 
 /**
  * Created by dmx on 2017/8/11.
@@ -20,7 +25,13 @@ object DefaultOkHttpClient {
         builder.connectTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
         builder.readTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
         builder.writeTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
-
+        builder.addInterceptor({ chain ->
+          chain.proceed(chain.request().newBuilder()
+                   .addHeader("X-Bmob-Application-Id",BuildConfig.bombAppId)
+                   .addHeader("X-Bmob-REST-API-Key",BuildConfig.bombApiKey)
+                   .header("Content-Type","application/json")
+                   .build())
+        })
         setCertificates(context, builder)
         return builder.build()
     }
@@ -28,7 +39,7 @@ object DefaultOkHttpClient {
     private fun setCertificates(context: Context, builder: OkHttpClient.Builder) {
         try {
             val certificateFactory = CertificateFactory.getInstance("X.509")
-            val input = context.resources.openRawResource(R.raw.readhub)
+            val input = context.resources.openRawResource(R.raw.api_bomb_cn)
             val trustStore = KeyStore.getInstance(KeyStore
                     .getDefaultType())
             trustStore.load(null)
@@ -40,10 +51,10 @@ object DefaultOkHttpClient {
             trustManagerFactory.init(trustStore)
             sslContext.init(
                     null,
-                    trustManagerFactory.trustManagers,
+                    Array(1,{_ -> MyTrustManager() }),
                     SecureRandom()
             )
-            builder.sslSocketFactory(sslContext.socketFactory)
+            builder.sslSocketFactory(sslContext.socketFactory,MyTrustManager())
 
 
         } catch (e: Exception) {
@@ -51,4 +62,19 @@ object DefaultOkHttpClient {
         }
 
     }
+   class MyTrustManager: X509TrustManager {
+       override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> {
+           return arrayOf()
+       }
+
+       @Throws(CertificateException::class)
+       override fun checkClientTrusted(chain: Array<X509Certificate>,
+                                       authType: String) {
+       }
+
+       @Throws(CertificateException::class)
+       override fun checkServerTrusted(chain: Array<X509Certificate>,
+                                       authType: String) {
+       }
+   }
 }

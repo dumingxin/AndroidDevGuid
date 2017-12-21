@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_marginBottom="2dp"
+    android:layout_height="wrap_content" android:background="@color/white"
+    android:padding="10dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdvLauncher"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:placeholderImage="@drawable/muhan" />
+
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="名称"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/sdvLauncher" />
+
+    <TextView
+        android:id="@+id/tvDownloadCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="100万次下载"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+    <TextView
+        android:id="@+id/tvUpdateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1天前更新"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tvDownloadCount"
+        app:layout_constraintTop_toBottomOf="@id/tvDownloadCount" />
+</android.support.constraint.ConstraintLayout>

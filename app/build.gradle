@@ -6,7 +6,6 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "name.dmx.androiddevguid"
         minSdkVersion 15
@@ -14,7 +13,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "bombAppKey", project.bombAppKey
+        buildConfigField "String", "bombAppId", project.bombAppId
+        buildConfigField "String", "bombApiKey", project.bombApiKey
+        buildConfigField "String", "buglyAppId", project.bombApiKey
     }
     buildTypes {
         release {
@@ -50,5 +51,5 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:1.0.0"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
     implementation "android.arch.persistence.room:rxjava2:1.0.0"
-    compile 'cn.bmob.android:bmob-sdk:3.5.5'
+    implementation 'com.facebook.fresco:fresco:0.12.0'
 }

@@ -3,30 +3,21 @@ package name.dmx.readhubclient.http
 import io.reactivex.Observable
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.model.LibInfo
-import name.dmx.readhubclient.model.News
-import name.dmx.readhubclient.model.Topic
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * Created by dmx on 17-10-30.
  */
 interface Api {
     /**
-     * 热门话题
+     * 查询App列表
      */
-    @GET("topic")
-    fun getTopics(@Query("lastCursor") lastCursor: Long?, @Query("pageSize") pageSize: Int): Observable<PageResult<AppInfo>>
-
+    @GET("cloudQuery")
+    fun getAppList(@Query("bql") bql: String, @Query("values") values: String): Observable<ListResult<AppInfo>>
     /**
-     * 科技动态
+     * 查询Lib列表
      */
-    @GET("news")
-    fun getNews(@Query("lastCursor") lastCursor: Long?, @Query("pageSize") pageSize: Int): Observable<PageResult<LibInfo>>
-
-    /**
-     * 开发者资讯
-     */
-    @GET("technews")
-    fun getTechNews(@Query("lastCursor") lastCursor: Long?, @Query("pageSize") pageSize: Int): Observable<PageResult<LibInfo>>
-
+    @GET("cloudQuery")
+    fun getLibList(@Query("bql") bql: String, @Query("values") values: String): Observable<ListResult<LibInfo>>
 }

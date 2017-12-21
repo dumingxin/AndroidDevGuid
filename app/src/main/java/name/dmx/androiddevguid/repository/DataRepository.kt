@@ -3,20 +3,21 @@ package name.dmx.readhubclient.repository
 import android.content.Context
 import com.google.gson.GsonBuilder
 import com.hzzh.baselibrary.net.DefaultOkHttpClient
+import com.hzzh.baselibrary.net.transformer.SchedulerTransformer
 import io.reactivex.Observable
+import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.readhubclient.http.Api
-import name.dmx.readhubclient.http.PageResult
-import name.dmx.readhubclient.model.News
-import name.dmx.readhubclient.model.Topic
+import name.dmx.readhubclient.http.ListResult
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 /**
  * Created by dmx on 17-11-7.
  */
 class DataRepository private constructor(private val context: Context) {
-    private val SERVER_ADDRESS = "https://api.readhub.me/"
+    private val SERVER_ADDRESS = "https://api.bmob.cn/1/"
     private val httpService: Api
 
     init {
@@ -29,29 +30,13 @@ class DataRepository private constructor(private val context: Context) {
         httpService = retrofit.create(Api::class.java)
     }
 
-    /**
-     * 热门话题
-     */
-
-    fun getTopics(lastCursor: Long?, pageSize: Int): Observable<PageResult<Topic>> {
-        return httpService.getTopics(lastCursor, pageSize)
+    fun getAppList(pageIndex: Int, pageSize: Int):Observable<ListResult<AppInfo>> {
+        val bql = "select * from app_info limit ?,? order by downloadCount desc"
+        val offset = pageIndex * pageSize
+        val values = "[$offset,$pageSize]"
+        return httpService.getAppList(bql, values)
     }
 
-    /**
-     * 科技动态
-     */
-
-    fun getNews(lastCursor: Long?, pageSize: Int): Observable<PageResult<News>> {
-        return httpService.getNews(lastCursor, pageSize)
-    }
-
-    /**
-     * 开发者资讯
-     */
-
-    fun getTechNews(lastCursor: Long?, pageSize: Int): Observable<PageResult<News>> {
-        return httpService.getTechNews(lastCursor, pageSize)
-    }
 
     companion object {
         private var instance: DataRepository? = null
