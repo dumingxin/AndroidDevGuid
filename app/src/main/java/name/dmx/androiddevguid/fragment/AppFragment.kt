@@ -20,7 +20,7 @@ import name.dmx.androiddevguid.viewmodel.AppViewModel
  */
 class AppFragment : Fragment() {
 
-    private val PAGE_SIZE = 10
+    private val PAGE_SIZE = 20
     private var dataList: List<AppInfo> = ArrayList()
     private lateinit var newsViewModel: AppViewModel
     private lateinit var newsLiveData: LiveData<List<AppInfo>>
