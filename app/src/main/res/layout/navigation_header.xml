@@ -11,7 +11,7 @@
         android:id="@+id/readhub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="ADG"
         android:textColor="@color/white"
         android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="parent"

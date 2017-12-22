@@ -40,7 +40,7 @@ class LibViewModel : ViewModel() {
                     if (pageIndex == 0) {
                         libList.clear()
                     }
-                    libList.addAll(libList.size, data.results?.toList()!!)
+                    libList.addAll(libList.size, data.results?.toList()!!.sortedByDescending { item-> return@sortedByDescending item._count })
                     liveData.value = libList
                 }, {
                     liveData.value = null
