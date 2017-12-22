@@ -11,26 +11,26 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_app.*
 import name.dmx.androiddevguid.R
-import name.dmx.androiddevguid.adapter.AppListAdapter
-import name.dmx.androiddevguid.model.AppInfo
-import name.dmx.androiddevguid.viewmodel.AppViewModel
+import name.dmx.androiddevguid.adapter.LibListAdapter
+import name.dmx.androiddevguid.model.LibInfo
+import name.dmx.androiddevguid.viewmodel.LibViewModel
 
 /**
  * Created by dmx on 2017/12/21.
  */
-class AppFragment : Fragment() {
+class LibFragment : Fragment() {
 
     private val PAGE_SIZE = 10
-    private var dataList: List<AppInfo> = ArrayList()
-    private lateinit var appViewModel: AppViewModel
-    private lateinit var appLiveData: LiveData<List<AppInfo>>
-    private var adapter: AppListAdapter? = null
+    private var dataList: List<LibInfo> = ArrayList()
+    private lateinit var appViewModel: LibViewModel
+    private lateinit var appLiveData: LiveData<List<LibInfo>>
+    private var adapter: LibListAdapter? = null
 
-    private fun getObserver() = Observer<List<AppInfo>> { appList ->
+    private fun getObserver() = Observer<List<LibInfo>> { appList ->
         if (appList != null) {
             dataList = appList
             if (adapter == null) {
-                adapter = AppListAdapter(context, dataList)
+                adapter = LibListAdapter(context, dataList)
                 adapter!!.onItemClickListener = onItemClickListener
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 recyclerView.adapter = adapter
@@ -44,7 +44,7 @@ class AppFragment : Fragment() {
         }
     }
 
-    private val onItemClickListener = object : AppListAdapter.OnItemClickListener {
+    private val onItemClickListener = object : LibListAdapter.OnItemClickListener {
         override fun onItemClick(view: View, position: Int) {
             val item = dataList[position]
 //            val intent = WebViewActivity.makeIntent(context, item.url, item.title, "")
@@ -59,7 +59,7 @@ class AppFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        appViewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
+        appViewModel = ViewModelProviders.of(this).get(LibViewModel::class.java)
         appLiveData = appViewModel.getLiveData(PAGE_SIZE)
         appLiveData.observe(this, getObserver())
         smartRefreshLayout.setOnRefreshListener {
@@ -71,8 +71,8 @@ class AppFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): AppFragment {
-            return AppFragment()
+        fun newInstance(): LibFragment {
+            return LibFragment()
         }
     }
 }

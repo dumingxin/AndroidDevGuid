@@ -3,6 +3,7 @@ package name.dmx.readhubclient.http
 import io.reactivex.Observable
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.model.LibInfo
+import name.dmx.androiddevguid.model.RelationApkLib
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -16,8 +17,14 @@ interface Api {
     @GET("cloudQuery")
     fun getAppList(@Query("bql") bql: String, @Query("values") values: String): Observable<ListResult<AppInfo>>
     /**
-     * 查询Lib列表
+     * 查询r_apk_lib关系表
      */
     @GET("cloudQuery")
-    fun getLibList(@Query("bql") bql: String, @Query("values") values: String): Observable<ListResult<LibInfo>>
+    fun getApk_LibList(@Query("bql") bql: String, @Query("values") values: String): Observable<ListResult<RelationApkLib>>
+
+    /**
+     * 查询Lib信息
+     */
+    @GET("cloudQuery")
+    fun getLibList(@Query("bql") bql:String,@Query("values") values: String):Observable<ListResult<LibInfo>>
 }

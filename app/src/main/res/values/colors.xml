@@ -3,4 +3,15 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <array name="randomColor">
+        <item>#001f3f</item>
+        <item>#0074d9</item>
+        <item>#7fdbff</item>
+        <item>#ff851b</item>
+        <item>#ff4136</item>
+        <item>#3d9970</item>
+        <item>#39cccc</item>
+        <item>#Aaaaaa</item>
+    </array>
 </resources>

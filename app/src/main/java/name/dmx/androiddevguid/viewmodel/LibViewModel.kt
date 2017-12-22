@@ -6,17 +6,18 @@ import android.arch.lifecycle.ViewModel
 import com.hzzh.baselibrary.net.transformer.SchedulerTransformer
 import name.dmx.androiddevguid.MyApplication
 import name.dmx.androiddevguid.model.AppInfo
+import name.dmx.androiddevguid.model.LibInfo
 import name.dmx.readhubclient.repository.DataRepository
 
 /**
  * Created by dmx on 2017/12/21.
  */
-class AppViewModel : ViewModel() {
-    private val liveData: MutableLiveData<List<AppInfo>> = MutableLiveData()
+class LibViewModel : ViewModel() {
+    private val liveData: MutableLiveData<List<LibInfo>> = MutableLiveData()
     private var pageIndex: Int = 0
     private var pageSize: Int = 0
-    private val appList = ArrayList<AppInfo>()
-    fun getLiveData(pageSize: Int): LiveData<List<AppInfo>> {
+    private val libList = ArrayList<LibInfo>()
+    fun getLiveData(pageSize: Int): LiveData<List<LibInfo>> {
         this.pageSize = pageSize
         fetchData()
         return liveData
@@ -33,14 +34,14 @@ class AppViewModel : ViewModel() {
     }
 
     private fun fetchData() {
-        val observable = DataRepository.getInstance(MyApplication.instance).getTopAppList(pageIndex, pageSize)
+        val observable = DataRepository.getInstance(MyApplication.instance).getTopLibList(pageIndex, pageSize)
         observable.compose(SchedulerTransformer())
                 .subscribe({ data ->
                     if (pageIndex == 0) {
-                        appList.clear()
+                        libList.clear()
                     }
-                    appList.addAll(appList.size, data.results?.toList()!!)
-                    liveData.value = appList
+                    libList.addAll(libList.size, data.results?.toList()!!)
+                    liveData.value = libList
                 }, {
                     liveData.value = null
                 })

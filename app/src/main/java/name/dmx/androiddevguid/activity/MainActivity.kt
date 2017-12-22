@@ -10,6 +10,7 @@ import name.dmx.androiddevguid.R
 import name.dmx.androiddevguid.adapter.TabFragmentAdapter
 import name.dmx.androiddevguid.fragment.AppFragment
 import name.dmx.androiddevguid.fragment.EmptyFragment
+import name.dmx.androiddevguid.fragment.LibFragment
 import name.dmx.readhubclient.repository.DataRepository
 
 class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener{
@@ -28,11 +29,11 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
     private fun init() {
         val titleList = arrayListOf("应用排行", "框架排行")
-        val fragmentList = arrayListOf(AppFragment.newInstance(), EmptyFragment.newInstance())
+        val fragmentList = arrayListOf(AppFragment.newInstance(), LibFragment.newInstance())
         val tabFragmentAdapter = TabFragmentAdapter(supportFragmentManager, fragmentList, titleList)
         viewPager.adapter = tabFragmentAdapter
         tabLayout.setupWithViewPager(viewPager)
-//        DataRepository.getInstance(this).getAppList(1,20)
+//        DataRepository.getInstance(this).getTopAppList(1,20)
     }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

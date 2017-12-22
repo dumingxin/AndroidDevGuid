@@ -52,4 +52,5 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
     implementation "android.arch.persistence.room:rxjava2:1.0.0"
     implementation 'com.facebook.fresco:fresco:0.12.0'
+    compile 'com.github.lzyzsd.randomcolor:library:1.0.0'
 }

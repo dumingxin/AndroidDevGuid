@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidDevGuid</string>
+    <string name="app_name">ADG</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
     <string name="menu_key_app">应用版</string>
