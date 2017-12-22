@@ -42,7 +42,6 @@ class DataRepository private constructor(private val context: Context) {
         val offset = pageIndex * pageSize
         val values = "[$offset,$pageSize]"
         return httpService.getApk_LibList(bql, values).flatMap { list: ListResult<RelationApkLib> ->
-//            val bql = "select * from lib_info where packageName in (?)"
             val bql = "select * from lib_info where packageName in (" + Array(pageSize, { "?" }).joinToString(",")+ ")"
             val mapLibCount = HashMap<String, Int>()
             val sb = StringBuilder()

@@ -1,6 +1,7 @@
 package name.dmx.androiddevguid.adapter
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,24 +9,23 @@ import android.view.ViewGroup
 import android.widget.TextView
 import name.dmx.androiddevguid.R
 import name.dmx.androiddevguid.model.LibInfo
-import java.util.*
+
 
 /**
  * Created by dmx on 2017/12/21.
  */
 class LibListAdapter(private val context: Context, var data: List<LibInfo>) : RecyclerView.Adapter<LibListAdapter.MyViewHolder>() {
     var onItemClickListener: OnItemClickListener? = null
-    private val random = Random()
-    private val colorArray: IntArray
-
-    init {
-        colorArray = context.resources.getIntArray(R.array.randomColor)
-    }
+    private val colorArray: IntArray = context.resources.getIntArray(R.array.randomColor)
 
     override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
         val item = data[position]
         val name = item.packageName.substring(item.packageName.lastIndexOf('.') + 1)
-        holder?.launcher?.setBackgroundColor(colorArray[position%8])
+        //动态设置圆角背景
+        val gd = GradientDrawable()//创建drawable
+        gd.setColor(colorArray[position % 8])
+        gd.cornerRadius = 20f
+        holder?.launcher?.background=gd
         holder?.launcher?.text = name
         holder?.name?.text = item.packageName
         holder?.downloadCount?.text = getDownloadCountStr(item._count)
