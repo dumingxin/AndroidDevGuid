@@ -34,7 +34,9 @@ class AppDetailActivity : AppCompatActivity() {
         Picasso.with(this).load(appInfo.imgUrl)
                 .into(sdvLauncher,
                         PicassoPalette.with(appInfo.imgUrl, sdvLauncher)
-                                .use(PicassoPalette.Profile.VIBRANT).intoBackground(clTitleContainer, PicassoPalette.Swatch.RGB))
+                                .use(PicassoPalette.Profile.VIBRANT)
+                                .intoBackground(toolbar, PicassoPalette.Swatch.RGB)
+                                .intoBackground(clTitleContainer))
         tvName.text = appInfo.name
         ctl.title = appInfo.name
         supportActionBar?.title = appInfo.name

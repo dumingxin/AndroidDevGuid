@@ -11,4 +11,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppDetailActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="expandTextApparence">
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>
