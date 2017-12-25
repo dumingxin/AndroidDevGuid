@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_app.*
 import name.dmx.androiddevguid.R
+import name.dmx.androiddevguid.activity.AppDetailActivity
 import name.dmx.androiddevguid.adapter.AppListAdapter
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.viewmodel.AppViewModel
@@ -47,8 +48,8 @@ class AppFragment : Fragment() {
     private val onItemClickListener = object : AppListAdapter.OnItemClickListener {
         override fun onItemClick(view: View, position: Int) {
             val item = dataList[position]
-//            val intent = WebViewActivity.makeIntent(context, item.url, item.title, "")
-//            startActivity(intent)
+            val intent = AppDetailActivity.makeIntent(this@AppFragment.context, item)
+            startActivity(intent)
         }
     }
 

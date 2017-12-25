@@ -42,7 +42,7 @@ class DataRepository private constructor(private val context: Context) {
         val offset = pageIndex * pageSize
         val values = "[$offset,$pageSize]"
         return httpService.getApk_LibList(bql, values).flatMap { list: ListResult<RelationApkLib> ->
-            val bql = "select * from lib_info where packageName in (" + Array(pageSize, { "?" }).joinToString(",")+ ")"
+            val bql = "select * from lib_info where packageName in (" + Array(pageSize, { "?" }).joinToString(",") + ")"
             val mapLibCount = HashMap<String, Int>()
             val sb = StringBuilder()
             if (list.results != null) {
@@ -61,6 +61,15 @@ class DataRepository private constructor(private val context: Context) {
                 return@map t
             }
         }
+    }
+
+    /**
+     * 获取App引用的lib
+     */
+    fun getLibListByApp(app: String): Observable<ListResult<RelationApkLib>> {
+        val bql = "select * from r_apk_lib  where apkPackageName=?"
+        val values = "[\'$app\']"
+        return httpService.getApk_LibList(bql, values)
     }
 
     companion object {

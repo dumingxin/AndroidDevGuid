@@ -1,17 +1,15 @@
 package name.dmx.androiddevguid.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import name.dmx.androiddevguid.R
 import name.dmx.androiddevguid.adapter.TabFragmentAdapter
 import name.dmx.androiddevguid.fragment.AppFragment
-import name.dmx.androiddevguid.fragment.EmptyFragment
 import name.dmx.androiddevguid.fragment.LibFragment
-import name.dmx.readhubclient.repository.DataRepository
 
 class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener{
 

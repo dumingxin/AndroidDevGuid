@@ -5,8 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import com.facebook.drawee.view.SimpleDraweeView
+import com.squareup.picasso.Picasso
 import name.dmx.androiddevguid.R
 import name.dmx.androiddevguid.model.AppInfo
 
@@ -17,20 +18,20 @@ class AppListAdapter(private val context: Context, var data: List<AppInfo>) : Re
     var onItemClickListener: OnItemClickListener? = null
     override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
         val item = data[position]
-        holder?.launcher?.setImageURI(item.imgUrl)
+        Picasso.with(context).load(item.imgUrl).into(holder!!.launcher!!)
         holder?.name?.text = item.name
         holder?.downloadCount?.text = getDownloadCountStr(item.downloadCount)
-        val strArr=item.detail.split(" ")
-        val detail=if (strArr.size==5) strArr[1]+" "+strArr[2] else strArr[1]
+        val strArr = item.detail.split(" ")
+        val detail = if (strArr.size == 5) strArr[1] + " " + strArr[2] else strArr[1]
         holder?.updateTime?.text = detail
         holder?.view?.tag = position
     }
 
     private fun getDownloadCountStr(downloadCount: Int): String {
-        if (downloadCount >= 10000) {
-            return (downloadCount / 10000).toString() + "万下载"
+        return if (downloadCount >= 10000) {
+            (downloadCount / 10000).toString() + "万下载"
         } else {
-            return downloadCount.toString() + "次下载"
+            downloadCount.toString() + "次下载"
         }
     }
 
@@ -49,7 +50,7 @@ class AppListAdapter(private val context: Context, var data: List<AppInfo>) : Re
 
     inner class MyViewHolder : RecyclerView.ViewHolder {
         var view: View
-        var launcher: SimpleDraweeView
+        var launcher: ImageView
         var name: TextView
         var downloadCount: TextView
         var updateTime: TextView

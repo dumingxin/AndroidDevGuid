@@ -3,8 +3,8 @@ package name.dmx.androiddevguid.viewmodel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.hzzh.baselibrary.net.transformer.SchedulerTransformer
 import name.dmx.androiddevguid.MyApplication
+import name.dmx.androiddevguid.http.transformer.SchedulerTransformer
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.readhubclient.repository.DataRepository
 

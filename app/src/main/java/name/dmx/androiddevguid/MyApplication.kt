@@ -2,7 +2,6 @@ package name.dmx.androiddevguid
 
 import android.app.Application
 import android.content.Context
-import com.facebook.drawee.backends.pipeline.Fresco
 import com.scwang.smartrefresh.header.MaterialHeader
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.*
@@ -33,7 +32,6 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        Fresco.initialize(this)
         Bugly.init(applicationContext, BuildConfig.buglyAppId, false)
     }
 
