@@ -7,15 +7,17 @@
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/ctl"
+            android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             android:theme="@style/AppDetailActionBar"
+            app:contentScrim="@color/colorPrimary"
             app:expandedTitleGravity="left"
             app:expandedTitleMarginStart="84dp"
             app:expandedTitleMarginTop="50dp"

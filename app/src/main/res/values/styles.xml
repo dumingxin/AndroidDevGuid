@@ -12,7 +12,6 @@
     </style>
 
     <style name="AppDetailActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="expandTextApparence">

@@ -2,15 +2,22 @@ package name.dmx.androiddevguid.activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.AppBarLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import com.github.florent37.picassopalette.PicassoPalette
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_app_detail.*
+import labelnet.cn.patterncolordemo.PaletteUtil
 import name.dmx.androiddevguid.R
 import name.dmx.androiddevguid.adapter.AppInfoAdapter
 import name.dmx.androiddevguid.http.transformer.SchedulerTransformer
+import name.dmx.androiddevguid.listener.AppBarStateChangeListener
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.model.RelationApkLib
 import name.dmx.readhubclient.http.ListResult
@@ -19,26 +26,46 @@ import name.dmx.readhubclient.repository.DataRepository
 /**
  * Created by dmx on 2017/12/25.
  */
-class AppDetailActivity : AppCompatActivity() {
+class AppDetailActivity : AppCompatActivity(), Callback {
+
     private lateinit var appInfo: AppInfo
+    private var statusBarColor = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app_detail)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener {
+            this.finish()
+        }
         appInfo = intent.getSerializableExtra(KEY_APP_INFO) as AppInfo
+        initView()
         initData(appInfo)
+    }
+
+    private fun initView() {
+        appBarLayout.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+            override fun onStateChanged(appBarLayout: AppBarLayout, state: State) {
+                if (state == State.COLLAPSED) {
+                    collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this@AppDetailActivity, R.color.colorPrimary))
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        window.statusBarColor = ContextCompat.getColor(this@AppDetailActivity, R.color.colorPrimaryDark)
+                    }
+                } else {
+                    collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this@AppDetailActivity, android.R.color.transparent))
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        window.statusBarColor = statusBarColor
+                    }
+                }
+            }
+        })
     }
 
     private fun initData(appInfo: AppInfo) {
         Picasso.with(this).load(appInfo.imgUrl)
-                .into(sdvLauncher,
-                        PicassoPalette.with(appInfo.imgUrl, sdvLauncher)
-                                .use(PicassoPalette.Profile.VIBRANT)
-                                .intoBackground(toolbar, PicassoPalette.Swatch.RGB)
-                                .intoBackground(clTitleContainer))
+                .into(sdvLauncher, this)
         tvName.text = appInfo.name
-        ctl.title = appInfo.name
+        collapsingToolbarLayout.title = appInfo.name
         supportActionBar?.title = appInfo.name
         tvDownloadCount.text = appInfo.downloadCountDescription
         tvUpdateTime.text = appInfo.updateTime
@@ -52,6 +79,26 @@ class AppDetailActivity : AppCompatActivity() {
         }, { error ->
             error.printStackTrace()
         })
+    }
+
+    override fun onSuccess() {
+        val bitmap = (sdvLauncher.drawable as BitmapDrawable).bitmap
+        PaletteUtil.instance.init(
+                bitmap,
+                object : PaletteUtil.PatternCallBack {
+                    override fun onCallBack(drawable: Drawable, burnColor: Int) {
+                        clTitleContainer.background = drawable
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            window.statusBarColor = burnColor
+                            statusBarColor = burnColor
+                        }
+                    }
+                }
+        )
+    }
+
+    override fun onError() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     companion object {
