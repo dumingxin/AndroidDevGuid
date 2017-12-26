@@ -20,8 +20,8 @@ import name.dmx.androiddevguid.http.transformer.SchedulerTransformer
 import name.dmx.androiddevguid.listener.AppBarStateChangeListener
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.model.RelationApkLib
-import name.dmx.readhubclient.http.ListResult
-import name.dmx.readhubclient.repository.DataRepository
+import name.dmx.androiddevguid.http.ListResult
+import name.dmx.androiddevguid.repository.DataRepository
 
 /**
  * Created by dmx on 2017/12/25.
@@ -35,15 +35,16 @@ class AppDetailActivity : AppCompatActivity(), Callback {
         setContentView(R.layout.activity_app_detail)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener {
-            this.finish()
-        }
         appInfo = intent.getSerializableExtra(KEY_APP_INFO) as AppInfo
         initView()
         initData(appInfo)
     }
 
     private fun initView() {
+        toolbar.setNavigationOnClickListener {
+            this.finish()
+        }
+        //监听toolbar的折叠状态
         appBarLayout.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
             override fun onStateChanged(appBarLayout: AppBarLayout, state: State) {
                 if (state == State.COLLAPSED) {
@@ -66,7 +67,6 @@ class AppDetailActivity : AppCompatActivity(), Callback {
                 .into(sdvLauncher, this)
         tvName.text = appInfo.name
         collapsingToolbarLayout.title = appInfo.name
-        supportActionBar?.title = appInfo.name
         tvDownloadCount.text = appInfo.downloadCountDescription
         tvUpdateTime.text = appInfo.updateTime
 

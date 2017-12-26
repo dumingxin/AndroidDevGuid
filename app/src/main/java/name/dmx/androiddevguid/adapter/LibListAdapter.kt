@@ -23,9 +23,9 @@ class LibListAdapter(private val context: Context, var data: List<LibInfo>) : Re
         val name = item.packageName.substring(item.packageName.lastIndexOf('.') + 1)
         //动态设置圆角背景
         val gd = GradientDrawable()//创建drawable
-        gd.setColor(colorArray[position % 8])
+        gd.setColor(colorArray[position % colorArray.size])
         gd.cornerRadius = 20f
-        holder?.launcher?.background=gd
+        holder?.launcher?.background = gd
         holder?.launcher?.text = name
         holder?.name?.text = item.packageName
         holder?.downloadCount?.text = getDownloadCountStr(item._count)

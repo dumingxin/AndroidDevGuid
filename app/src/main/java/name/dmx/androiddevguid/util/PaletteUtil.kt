@@ -37,16 +37,16 @@ class PaletteUtil : Palette.PaletteAsyncListener {
         if (b != null) {
             colorEasy = b!!.getRgb()
         }
-        patternCallBack!!.onCallBack(changedImageViewShape(a!!.getRgb(), colorEasy), colorBurn(a.rgb))
+        patternCallBack!!.onCallBack(generateGradientDrawable(a!!.getRgb(), colorEasy), colorBurn(a.rgb))
     }
 
     /**
-     * 创建Drawable对象
+     * 创建线性渐变的Drawable对象
      * @param RGBValues
      * @param two
      * @return
      */
-    private fun changedImageViewShape(RGBValues: Int, two: Int): Drawable {
+    fun generateGradientDrawable(RGBValues: Int, two: Int): Drawable {
         var two = two
         if (two == 0) {
             two = colorEasy(RGBValues)
@@ -68,7 +68,7 @@ class PaletteUtil : Palette.PaletteAsyncListener {
      * @param RGBValues
      * @return
      */
-    private fun colorEasy(RGBValues: Int): Int {
+    fun colorEasy(RGBValues: Int): Int {
         var red = RGBValues shr 16 and 0xff
         var green = RGBValues shr 8 and 0xff
         var blue = RGBValues and 0xff
@@ -92,7 +92,7 @@ class PaletteUtil : Palette.PaletteAsyncListener {
      * @param RGBValues
      * @return
      */
-    private fun colorBurn(RGBValues: Int): Int {
+    fun colorBurn(RGBValues: Int): Int {
         var red = RGBValues shr 16 and 0xff
         var green = RGBValues shr 8 and 0xff
         var blue = RGBValues and 0xff

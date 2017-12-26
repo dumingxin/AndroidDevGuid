@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel
 import name.dmx.androiddevguid.MyApplication
 import name.dmx.androiddevguid.http.transformer.SchedulerTransformer
 import name.dmx.androiddevguid.model.AppInfo
-import name.dmx.readhubclient.repository.DataRepository
+import name.dmx.androiddevguid.repository.DataRepository
 
 /**
  * Created by dmx on 2017/12/21.

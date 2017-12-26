@@ -1,14 +1,14 @@
-package name.dmx.readhubclient.repository
+package name.dmx.androiddevguid.repository
 
 import android.content.Context
 import com.google.gson.GsonBuilder
 import com.hzzh.baselibrary.net.DefaultOkHttpClient
 import io.reactivex.Observable
+import name.dmx.androiddevguid.http.Api
+import name.dmx.androiddevguid.http.ListResult
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.model.LibInfo
 import name.dmx.androiddevguid.model.RelationApkLib
-import name.dmx.readhubclient.http.Api
-import name.dmx.readhubclient.http.ListResult
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -70,6 +70,31 @@ class DataRepository private constructor(private val context: Context) {
         val bql = "select * from r_apk_lib  where apkPackageName=?"
         val values = "[\'$app\']"
         return httpService.getApk_LibList(bql, values)
+    }
+
+    fun getAppListByLib(lib: String, pageIndex: Int, pageSize: Int): Observable<ListResult<AppInfo>> {
+        val bql = "select * from r_apk_lib where libPackageName=? limit ?,?"
+        val offset = pageIndex * pageSize
+        val values = "[\'$lib\',$offset,$pageSize]"
+        return httpService.getApk_LibList(bql, values).flatMap { list: ListResult<RelationApkLib> ->
+            val size = list.results?.size!!
+            if (size > 0) {
+                val bql = "select * from app_info where packageName in (" + Array(size, { "?" }).joinToString(",") + ")"
+                val sb = StringBuilder()
+                if (list.results != null) {
+                    for (item in list.results!!) {
+                        sb.append(",\'" + item.apkPackageName + "\'")
+                    }
+                }
+                val values = if (sb.isNotEmpty()) sb.substring(1) else sb.toString()
+                return@flatMap httpService.getAppList(bql, "[$values]")
+            } else {
+                return@flatMap Observable.generate<ListResult<AppInfo>> { generator ->
+                    generator.onNext(ListResult<AppInfo>())
+                }
+            }
+
+        }
     }
 
     companion object {

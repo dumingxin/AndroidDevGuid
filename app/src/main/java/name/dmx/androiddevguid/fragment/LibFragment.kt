@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_app.*
 import name.dmx.androiddevguid.R
+import name.dmx.androiddevguid.activity.LibDetailActivity
 import name.dmx.androiddevguid.adapter.LibListAdapter
 import name.dmx.androiddevguid.model.LibInfo
 import name.dmx.androiddevguid.viewmodel.LibViewModel
@@ -47,8 +48,8 @@ class LibFragment : Fragment() {
     private val onItemClickListener = object : LibListAdapter.OnItemClickListener {
         override fun onItemClick(view: View, position: Int) {
             val item = dataList[position]
-//            val intent = WebViewActivity.makeIntent(context, item.url, item.title, "")
-//            startActivity(intent)
+            val intent = LibDetailActivity.makeIntent(this@LibFragment.context, item, position)
+            startActivity(intent)
         }
     }
 

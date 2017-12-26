@@ -1,4 +1,4 @@
-package name.dmx.readhubclient.http
+package name.dmx.androiddevguid.http
 
 import io.reactivex.Observable
 import name.dmx.androiddevguid.model.AppInfo
