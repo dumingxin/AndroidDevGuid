@@ -2,6 +2,8 @@ package name.dmx.androiddevguid.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_COMPACT
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +33,7 @@ class AppInfoAdapter(private val context: Context, private var appInfo: AppInfo,
     override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
         val itemType = getItemViewType(position)
         if (itemType == AppInfoViewType.Description.ordinal) {
-            holder?.tvDescription?.text = appInfo.description
+            holder?.tvDescription?.text =Html.fromHtml(appInfo.description)
         } else {
             holder?.tvPackageName?.text = packageList[position - 1].libPackageName
         }
