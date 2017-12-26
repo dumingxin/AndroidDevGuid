@@ -8,6 +8,7 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import kotlinx.android.synthetic.main.activity_lib_detail.*
 import labelnet.cn.patterncolordemo.PaletteUtil
 import name.dmx.androiddevguid.R
@@ -89,6 +90,18 @@ class LibDetailActivity : AppCompatActivity() {
                         recyclerView.layoutManager = LinearLayoutManager(this@LibDetailActivity)
                         recyclerView.adapter = libInfoAdapter
                         libInfoAdapter.notifyDataSetChanged()
+                        libInfoAdapter.onItemClickListener = object : LibInfoAdapter.OnItemClickListener {
+                            override fun onItemClick(view: View, position: Int) {
+                                val item = listResult.results?.get(position - 1)
+                                DataRepository.getInstance(this@LibDetailActivity).getAppByPackageName(item?.packageName!!)
+                                        .compose(SchedulerTransformer())
+                                        .subscribe({ result ->
+                                            val intent = AppDetailActivity.makeIntent(this@LibDetailActivity, result.results?.get(0)!!)
+                                            this@LibDetailActivity.startActivity(intent)
+                                        })
+                            }
+
+                        }
                     } else {
                         val libInfoAdapter = recyclerView.adapter as LibInfoAdapter
                         libInfoAdapter.appendAppList(listResult.results?.toList()!!)

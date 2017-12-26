@@ -29,9 +29,6 @@ class LibListAdapter(private val context: Context, var data: List<LibInfo>) : Re
         holder?.launcher?.text = name
         holder?.name?.text = item.packageName
         holder?.downloadCount?.text = getDownloadCountStr(item._count)
-//        val strArr = item.detail.split(" ")
-//        val detail = if (strArr.size == 5) strArr[1] + " " + strArr[2] else strArr[1]
-//        holder?.updateTime?.text = detail
         holder?.view?.tag = position
     }
 

@@ -32,7 +32,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        Bugly.init(applicationContext, BuildConfig.buglyAppId, false)
+        Bugly.init(applicationContext, BuildConfig.buglyAppId, true)
     }
 
     companion object {

@@ -72,6 +72,9 @@ class DataRepository private constructor(private val context: Context) {
         return httpService.getApk_LibList(bql, values)
     }
 
+    /**
+     * 根据lib库查询App列表
+     */
     fun getAppListByLib(lib: String, pageIndex: Int, pageSize: Int): Observable<ListResult<AppInfo>> {
         val bql = "select * from r_apk_lib where libPackageName=? limit ?,?"
         val offset = pageIndex * pageSize
@@ -93,8 +96,33 @@ class DataRepository private constructor(private val context: Context) {
                     generator.onNext(ListResult<AppInfo>())
                 }
             }
-
         }
+    }
+
+    /**
+     * 根据packageName查询App详情
+     */
+    fun getAppByPackageName(packageName: String): Observable<ListResult<AppInfo>> {
+        val bql = "select * from app_info where packageName=?"
+        val values = "[\'$packageName\']"
+        return httpService.getAppList(bql, values)
+    }
+
+    /**
+     * 根据packageName查询lib详情
+     */
+    fun getLibByPackageName(packageName: String): Observable<ListResult<LibInfo>> {
+        val bql = "select count(*) from r_apk_lib where libPackageName=? group by libPackageName"
+        val values = "[\'$packageName\']"
+        return httpService.getApk_LibList(bql, values).flatMap { result ->
+            val bql = "select * from lib_info where packageName=?"
+            val count = result.results?.get(0)?._count
+            return@flatMap httpService.getLibList(bql, values).map { result ->
+                result.results?.get(0)?._count = count!!
+                return@map result
+            }
+        }
+
     }
 
     companion object {

@@ -14,5 +14,6 @@
         android:layout_marginTop="10dp"
         android:lineSpacingExtra="5dp"
         android:text="package name"
+        android:textColor="@color/colorPrimary"
         android:textSize="16sp" />
 </android.support.constraint.ConstraintLayout>

@@ -10,17 +10,18 @@ import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_app_detail.*
 import labelnet.cn.patterncolordemo.PaletteUtil
 import name.dmx.androiddevguid.R
 import name.dmx.androiddevguid.adapter.AppInfoAdapter
+import name.dmx.androiddevguid.http.ListResult
 import name.dmx.androiddevguid.http.transformer.SchedulerTransformer
 import name.dmx.androiddevguid.listener.AppBarStateChangeListener
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.model.RelationApkLib
-import name.dmx.androiddevguid.http.ListResult
 import name.dmx.androiddevguid.repository.DataRepository
 
 /**
@@ -76,6 +77,19 @@ class AppDetailActivity : AppCompatActivity(), Callback {
             recyclerView.layoutManager = LinearLayoutManager(this@AppDetailActivity)
             recyclerView.adapter = appInfoAdapter
             appInfoAdapter.notifyDataSetChanged()
+            appInfoAdapter.onItemClickListener = object : AppInfoAdapter.OnItemClickListener {
+                override fun onItemClick(view: View, position: Int) {
+                    val item = listResult.results?.get(position - 1)
+                    DataRepository.getInstance(this@AppDetailActivity).getLibByPackageName(item!!.libPackageName)
+                            .compose(SchedulerTransformer())
+                            .subscribe({ result ->
+                                val intent = LibDetailActivity.makeIntent(this@AppDetailActivity, result.results?.get(0)!!, position)
+                                this@AppDetailActivity.startActivity(intent)
+                            })
+
+                }
+
+            }
         }, { error ->
             error.printStackTrace()
         })

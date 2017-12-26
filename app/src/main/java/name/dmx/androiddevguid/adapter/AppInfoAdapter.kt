@@ -14,12 +14,16 @@ import name.dmx.androiddevguid.model.RelationApkLib
  * Created by dmx on 2017/12/25.
  */
 class AppInfoAdapter(private val context: Context, private var appInfo: AppInfo, private val packageList: List<RelationApkLib>) : RecyclerView.Adapter<AppInfoAdapter.MyViewHolder>() {
+    var onItemClickListener: OnItemClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyViewHolder {
         return if (viewType == AppInfoViewType.Description.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.item_app_detail_description, parent, false)
             MyViewHolder(view)
         } else {
             val view = LayoutInflater.from(context).inflate(R.layout.item_app_detail_package, parent, false)
+            view.setOnClickListener {
+                onItemClickListener?.onItemClick(view, view.tag as Int)
+            }
             MyViewHolder(view)
         }
     }
@@ -31,6 +35,7 @@ class AppInfoAdapter(private val context: Context, private var appInfo: AppInfo,
         } else {
             holder?.tvPackageName?.text = packageList[position - 1].libPackageName
         }
+        holder?.view?.tag = position
     }
 
     override fun getItemCount(): Int {
@@ -50,12 +55,18 @@ class AppInfoAdapter(private val context: Context, private var appInfo: AppInfo,
     }
 
     class MyViewHolder : RecyclerView.ViewHolder {
+        var view: View?
         var tvDescription: TextView?
         var tvPackageName: TextView?
 
         constructor(view: View) : super(view) {
+            this.view = view
             tvDescription = view.findViewById(R.id.tvDescription)
             tvPackageName = view.findViewById(R.id.tvPackageName)
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(view: View, position: Int)
     }
 }
