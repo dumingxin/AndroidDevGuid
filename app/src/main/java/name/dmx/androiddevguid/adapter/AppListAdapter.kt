@@ -21,9 +21,7 @@ class AppListAdapter(private val context: Context, var data: List<AppInfo>) : Re
         Picasso.with(context).load(item.imgUrl).into(holder!!.launcher!!)
         holder?.name?.text = item.name
         holder?.downloadCount?.text = getDownloadCountStr(item.downloadCount)
-        val strArr = item.detail.split(" ")
-        val detail = if (strArr.size == 5) strArr[1] + " " + strArr[2] else strArr[1]
-        holder?.updateTime?.text = detail
+        holder?.updateTime?.text = item.updateTime
         holder?.view?.tag = position
     }
 

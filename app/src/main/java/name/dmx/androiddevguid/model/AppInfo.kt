@@ -16,7 +16,7 @@ data class AppInfo(val name: String, val packageName: String, val url: String, v
             }
     val updateTime: String
         get() {
-            val strArr = detail.split(" ")
-            return if (strArr.size == 5) strArr[1] + " " + strArr[2] else strArr[1]
+            val strArr = detail.split("<br/>")
+            return strArr[1].trim()
         }
 }

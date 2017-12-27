@@ -5,11 +5,10 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/tvDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:lineSpacingExtra="5dp"
-        android:text="应用简介"
+        android:text="详情"
         android:textSize="16sp" />
+
 </android.support.constraint.ConstraintLayout>
