@@ -16,6 +16,13 @@ class AppViewModel : ViewModel() {
     private var pageIndex: Int = 0
     private var pageSize: Int = 0
     private val appList = ArrayList<AppInfo>()
+    private var _keyword: String? = null
+    var keyword: String? = null
+        set(value) {
+            _keyword = value
+            refresh()
+        }
+
     fun getLiveData(pageSize: Int): LiveData<List<AppInfo>> {
         this.pageSize = pageSize
         fetchData()
@@ -33,7 +40,7 @@ class AppViewModel : ViewModel() {
     }
 
     private fun fetchData() {
-        val observable = DataRepository.getInstance(MyApplication.instance).getTopAppList(pageIndex, pageSize)
+        val observable = DataRepository.getInstance(MyApplication.instance).getTopAppList(_keyword, pageIndex, pageSize)
         observable.compose(SchedulerTransformer())
                 .subscribe({ data ->
                     if (pageIndex == 0) {

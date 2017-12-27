@@ -30,11 +30,19 @@ class DataRepository private constructor(private val context: Context) {
         httpService = retrofit.create(Api::class.java)
     }
 
-    fun getTopAppList(pageIndex: Int, pageSize: Int): Observable<ListResult<AppInfo>> {
-        val bql = "select * from app_info limit ?,? order by downloadCount desc"
-        val offset = pageIndex * pageSize
-        val values = "[$offset,$pageSize]"
-        return httpService.getAppList(bql, values)
+    fun getTopAppList(keyword: String?, pageIndex: Int, pageSize: Int): Observable<ListResult<AppInfo>> {
+        if (keyword == null) {
+            val bql = "select * from app_info  limit ?,? order by downloadCount desc"
+            val offset = pageIndex * pageSize
+            val values = "[$offset,$pageSize]"
+            return httpService.getAppList(bql, values)
+        } else {
+            val bql = "select * from app_info where name = ? limit ?,? order by downloadCount desc"
+            val offset = pageIndex * pageSize
+            val values = "[\'$keyword\',$offset,$pageSize]"
+            return httpService.getAppList(bql, values)
+        }
+
     }
 
     fun getTopLibList(pageIndex: Int, pageSize: Int): Observable<ListResult<LibInfo>> {
@@ -123,6 +131,16 @@ class DataRepository private constructor(private val context: Context) {
             }
         }
 
+    }
+
+    /**
+     * 应用搜索
+     */
+    fun searchAppByKeyword(keyword: String, pageIndex: Int, pageSize: Int): Observable<ListResult<AppInfo>> {
+        val bql = "select * from app_info where name like \'%?%\' limit ?,? order by downloadCount desc"
+        val offset = pageIndex * pageSize
+        val values = "[\'$keyword\',$offset,$pageSize]"
+        return httpService.getAppList(bql, values)
     }
 
     companion object {
