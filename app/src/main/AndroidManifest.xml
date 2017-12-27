@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="name.dmx.androiddevguid">
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -22,18 +29,32 @@
         </activity>
         <activity android:name=".activity.AppDetailActivity"></activity>
         <activity android:name=".activity.LibDetailActivity"></activity>
+        <activity android:name=".activity.WebViewActivity"></activity>
         <!--<activity android:name=".activity.SearchResultActivity"-->
-            <!--android:parentActivityName=".activity.MainActivity">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".activity.MainActivity" />-->
-            <!--&lt;!&ndash; meta tag and intent filter go into results activity &ndash;&gt;-->
-            <!--<meta-data android:name="android.app.searchable"-->
-                <!--android:resource="@xml/searchable" />-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.SEARCH" />-->
-            <!--</intent-filter>-->
+        <!--android:parentActivityName=".activity.MainActivity">-->
+        <!--<meta-data-->
+        <!--android:name="android.support.PARENT_ACTIVITY"-->
+        <!--android:value=".activity.MainActivity" />-->
+        <!--&lt;!&ndash; meta tag and intent filter go into results activity &ndash;&gt;-->
+        <!--<meta-data android:name="android.app.searchable"-->
+        <!--android:resource="@xml/searchable" />-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.SEARCH" />-->
+        <!--</intent-filter>-->
         <!--</activity>-->
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

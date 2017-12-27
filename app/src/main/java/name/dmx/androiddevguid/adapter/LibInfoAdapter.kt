@@ -35,7 +35,7 @@ class LibInfoAdapter(private val context: Context, private var libInfo: LibInfo,
     override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
         val itemType = getItemViewType(position)
         if (itemType == AppInfoViewType.Description.ordinal) {
-            holder?.tvDescription?.text = libInfo.description
+            holder?.tvDescription?.text = if (libInfo.description.length == 0) "内容待补充" else libInfo.description
         } else {
             holder?.tvPackageName?.text = appList[position - 1].name
         }

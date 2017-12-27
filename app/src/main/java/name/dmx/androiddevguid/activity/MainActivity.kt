@@ -5,11 +5,13 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
+import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.activity_main.*
 import name.dmx.androiddevguid.R
 import name.dmx.androiddevguid.adapter.TabFragmentAdapter
@@ -44,7 +46,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        when (item.itemId) {
+            R.id.navigation_item_update -> {
+                Beta.checkUpgrade()
+            }
+            R.id.navigation_item_readhub -> {
+                startActivity(WebViewActivity.makeIntent(this, "https://github.com/dumingxin/AndroidDevGuid/blob/master/README.md", "关于应用", ""))
+            }
+            R.id.navigation_item_me->{
+                startActivity(WebViewActivity.makeIntent(this, "https://github.com/dumingxin", "关于作者", ""))
+
+            }
+            else -> Snackbar.make(toolbar, item!!.title, Snackbar.LENGTH_SHORT).show()
+        }
+        drawerLayout.closeDrawers()
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
