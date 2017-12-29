@@ -10,8 +10,8 @@ android {
         applicationId "name.dmx.androiddevguid"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 3
-        versionName "1.0.1"
+        versionCode 4
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "bombAppId", project.bombAppId
         buildConfigField "String", "bombApiKey", project.bombApiKey

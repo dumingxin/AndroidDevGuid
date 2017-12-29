@@ -92,7 +92,7 @@ class LibDetailActivity : AppCompatActivity() {
                         libInfoAdapter.notifyDataSetChanged()
                         libInfoAdapter.onItemClickListener = object : LibInfoAdapter.OnItemClickListener {
                             override fun onItemClick(view: View, position: Int) {
-                                val item = listResult.results?.get(position - 1)
+                                val item = libInfoAdapter.getItem(position)
                                 DataRepository.getInstance(this@LibDetailActivity).getAppByPackageName(item?.packageName!!)
                                         .compose(SchedulerTransformer())
                                         .subscribe({ result ->

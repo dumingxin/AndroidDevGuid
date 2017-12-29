@@ -32,14 +32,18 @@ class LibInfoAdapter(private val context: Context, private var libInfo: LibInfo,
         this.appList.addAll(appList)
     }
 
+    fun getItem(position: Int): AppInfo {
+        return this.appList[position]
+    }
+
     override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
         val itemType = getItemViewType(position)
         if (itemType == AppInfoViewType.Description.ordinal) {
-            holder?.tvDescription?.text = if (libInfo.description.length == 0) "内容待补充" else libInfo.description
+            holder?.tvDescription?.text = if (libInfo.description.isNullOrEmpty()) "内容待补充" else libInfo.description
         } else {
             holder?.tvPackageName?.text = appList[position - 1].name
         }
-        holder?.view?.tag = position
+        holder?.view?.tag = position - 1
     }
 
     override fun getItemCount(): Int {

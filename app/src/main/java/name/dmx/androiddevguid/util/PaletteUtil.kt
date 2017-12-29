@@ -37,7 +37,12 @@ class PaletteUtil : Palette.PaletteAsyncListener {
         if (b != null) {
             colorEasy = b!!.getRgb()
         }
-        patternCallBack!!.onCallBack(generateGradientDrawable(a!!.getRgb(), colorEasy), colorBurn(a.rgb))
+        try {
+            patternCallBack!!.onCallBack(generateGradientDrawable(a!!.getRgb(), colorEasy), colorBurn(a.rgb))
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+
     }
 
     /**
