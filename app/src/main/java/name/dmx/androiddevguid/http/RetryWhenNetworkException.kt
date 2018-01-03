@@ -1,4 +1,4 @@
-package com.hzzh.baselibrary.net
+package name.dmx.androiddevguid.http
 
 import io.reactivex.Observable
 import io.reactivex.exceptions.CompositeException

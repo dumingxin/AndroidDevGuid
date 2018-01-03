@@ -2,9 +2,9 @@ package name.dmx.androiddevguid.repository
 
 import android.content.Context
 import com.google.gson.GsonBuilder
-import com.hzzh.baselibrary.net.DefaultOkHttpClient
 import io.reactivex.Observable
 import name.dmx.androiddevguid.http.Api
+import name.dmx.androiddevguid.http.DefaultOkHttpClient
 import name.dmx.androiddevguid.http.ListResult
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.model.LibInfo

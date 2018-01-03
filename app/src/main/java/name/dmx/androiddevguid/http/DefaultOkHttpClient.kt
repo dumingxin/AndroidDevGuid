@@ -1,4 +1,4 @@
-package com.hzzh.baselibrary.net
+package name.dmx.androiddevguid.http
 
 import android.content.Context
 import name.dmx.androiddevguid.BuildConfig
