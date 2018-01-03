@@ -79,7 +79,7 @@ class AppDetailActivity : AppCompatActivity(), Callback {
             appInfoAdapter.notifyDataSetChanged()
             appInfoAdapter.onItemClickListener = object : AppInfoAdapter.OnItemClickListener {
                 override fun onItemClick(view: View, position: Int) {
-                    val item = listResult.results?.get(position - 1)
+                    val item = listResult.results?.get(position)
                     DataRepository.getInstance(this@AppDetailActivity).getLibByPackageName(item!!.libPackageName)
                             .compose(SchedulerTransformer())
                             .subscribe({ result ->
