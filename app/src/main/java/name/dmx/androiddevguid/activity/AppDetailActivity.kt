@@ -23,7 +23,7 @@ import name.dmx.androiddevguid.listener.AppBarStateChangeListener
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.model.RelationApkLib
 import name.dmx.androiddevguid.repository.DataRepository
-
+import
 /**
  * Created by dmx on 2017/12/25.
  */
@@ -39,6 +39,7 @@ class AppDetailActivity : AppCompatActivity(), Callback {
         appInfo = intent.getSerializableExtra(KEY_APP_INFO) as AppInfo
         initView()
         initData(appInfo)
+
     }
 
     private fun initView() {
@@ -86,7 +87,6 @@ class AppDetailActivity : AppCompatActivity(), Callback {
                                 val intent = LibDetailActivity.makeIntent(this@AppDetailActivity, result.results?.get(0)!!, position)
                                 this@AppDetailActivity.startActivity(intent)
                             })
-
                 }
 
             }

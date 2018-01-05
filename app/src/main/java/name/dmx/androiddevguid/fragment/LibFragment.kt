@@ -9,7 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_app.*
+import kotlinx.android.synthetic.main.fragment_lib.*
 import name.dmx.androiddevguid.R
 import name.dmx.androiddevguid.activity.LibDetailActivity
 import name.dmx.androiddevguid.adapter.LibListAdapter
@@ -27,6 +27,8 @@ class LibFragment : Fragment() {
     private lateinit var appLiveData: LiveData<List<LibInfo>>
     private var adapter: LibListAdapter? = null
 
+    private val filterHeaders= arrayListOf("类型","标签")
+    private lateinit var  popupView:List<View>
     private fun getObserver() = Observer<List<LibInfo>> { appList ->
         if (appList != null) {
             dataList = appList
@@ -54,8 +56,15 @@ class LibFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater?.inflate(R.layout.fragment_app, container, false)
+        val view = inflater?.inflate(R.layout.fragment_lib, container, false)
         return view!!
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        popupView= arrayListOf(View(this.context), View(this.context))
+        (smartRefreshLayout.parent as ViewGroup).removeView(smartRefreshLayout)
+        dropDownMenu.setDropDownMenu(filterHeaders,popupView,smartRefreshLayout)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
