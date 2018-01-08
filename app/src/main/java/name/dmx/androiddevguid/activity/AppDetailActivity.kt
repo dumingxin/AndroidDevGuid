@@ -23,7 +23,6 @@ import name.dmx.androiddevguid.listener.AppBarStateChangeListener
 import name.dmx.androiddevguid.model.AppInfo
 import name.dmx.androiddevguid.model.RelationApkLib
 import name.dmx.androiddevguid.repository.DataRepository
-import
 /**
  * Created by dmx on 2017/12/25.
  */

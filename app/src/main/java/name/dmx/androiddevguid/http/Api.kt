@@ -20,11 +20,16 @@ interface Api {
      * 查询r_apk_lib关系表
      */
     @GET("cloudQuery")
-    fun getApk_LibList(@Query("bql") bql: String, @Query("values") values: String): Observable<ListResult<RelationApkLib>>
+    fun getApkLibList(@Query("bql") bql: String, @Query("values") values: String): Observable<ListResult<RelationApkLib>>
 
     /**
      * 查询Lib信息
      */
     @GET("cloudQuery")
     fun getLibList(@Query("bql") bql:String,@Query("values") values: String):Observable<ListResult<LibInfo>>
+    /**
+     * 查询统计信息
+     */
+    @GET("cloudQuery")
+    fun getCount(@Query("bql") bql:String):Observable<ListResult<Map<String,String>>>
 }

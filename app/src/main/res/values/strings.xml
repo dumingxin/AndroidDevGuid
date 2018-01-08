@@ -14,4 +14,7 @@
     <integer name="menu_order_update">5</integer>
     <string name="menu_key_me">关于作者</string>
     <integer name="menu_order_me">6</integer>
+    
+    <string name="statisticApp">共爬取了%d个App</string>
+    <string name="statisticApk">成功解析%d个Apk</string>
 </resources>

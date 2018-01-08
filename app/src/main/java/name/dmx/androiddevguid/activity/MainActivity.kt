@@ -11,12 +11,16 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.navigation_header.*
 import name.dmx.androiddevguid.R
 import name.dmx.androiddevguid.adapter.TabFragmentAdapter
 import name.dmx.androiddevguid.fragment.AppFragment
 import name.dmx.androiddevguid.fragment.LibFragment
+import name.dmx.androiddevguid.http.transformer.SchedulerTransformer
+import name.dmx.androiddevguid.repository.DataRepository
 import name.dmx.androiddevguid.viewmodel.AppViewModel
 
 
@@ -42,7 +46,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val tabFragmentAdapter = TabFragmentAdapter(supportFragmentManager, fragmentList, titleList)
         viewPager.adapter = tabFragmentAdapter
         tabLayout.setupWithViewPager(viewPager)
-//        DataRepository.getInstance(this).getTopAppList(1,20)
+        DataRepository.getInstance(this@MainActivity).getAppCount().compose(SchedulerTransformer()).subscribe({ data ->
+            val count=data.count
+            tvHeaderAppDesc.text=getString(R.string.statisticApp,count)
+        })
+        DataRepository.getInstance(this@MainActivity).getApkCount().compose(SchedulerTransformer()).subscribe({ data ->
+            val count=data.count
+            tvHeaderApkDesc.text=getString(R.string.statisticApk,count)
+        })
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -53,7 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.navigation_item_readhub -> {
                 startActivity(WebViewActivity.makeIntent(this, "https://github.com/dumingxin/AndroidDevGuid/blob/master/README.md", "关于应用", ""))
             }
-            R.id.navigation_item_me->{
+            R.id.navigation_item_me -> {
                 startActivity(WebViewActivity.makeIntent(this, "https://github.com/dumingxin", "关于作者", ""))
 
             }

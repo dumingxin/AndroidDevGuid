@@ -20,6 +20,9 @@ class DataRepository private constructor(private val context: Context) {
     private val SERVER_ADDRESS = "https://api.bmob.cn/1/"
     private val httpService: Api
 
+    private val TABLE_LIB_INFO="new_lib_info"
+    private val TABLE_R_APK_LIB="new_r_apk_lib"
+
     init {
         val builder = Retrofit.Builder()
         builder.baseUrl(SERVER_ADDRESS)
@@ -46,11 +49,11 @@ class DataRepository private constructor(private val context: Context) {
     }
 
     fun getTopLibList(pageIndex: Int, pageSize: Int): Observable<ListResult<LibInfo>> {
-        val bql = "select count(*) as count from r_apk_lib group by libPackageName limit ?,? order by _count desc"
+        val bql = "select count(*) as count from $TABLE_R_APK_LIB group by libPackageName limit ?,? order by _count desc"
         val offset = pageIndex * pageSize
         val values = "[$offset,$pageSize]"
-        return httpService.getApk_LibList(bql, values).flatMap { list: ListResult<RelationApkLib> ->
-            val bql = "select * from lib_info where packageName in (" + Array(pageSize, { "?" }).joinToString(",") + ")"
+        return httpService.getApkLibList(bql, values).flatMap { list: ListResult<RelationApkLib> ->
+            val bql = "select * from $TABLE_LIB_INFO where packageName in (" + Array(pageSize, { "?" }).joinToString(",") + ")"
             val mapLibCount = HashMap<String, Int>()
             val sb = StringBuilder()
             if (list.results != null) {
@@ -75,19 +78,19 @@ class DataRepository private constructor(private val context: Context) {
      * 获取App引用的lib
      */
     fun getLibListByApp(app: String): Observable<ListResult<RelationApkLib>> {
-        val bql = "select * from r_apk_lib  where apkPackageName=?"
+        val bql = "select * from $TABLE_R_APK_LIB  where apkPackageName=?"
         val values = "[\'$app\']"
-        return httpService.getApk_LibList(bql, values)
+        return httpService.getApkLibList(bql, values)
     }
 
     /**
      * 根据lib库查询App列表
      */
     fun getAppListByLib(lib: String, pageIndex: Int, pageSize: Int): Observable<ListResult<AppInfo>> {
-        val bql = "select * from r_apk_lib where libPackageName=? limit ?,?"
+        val bql = "select * from $TABLE_R_APK_LIB where libPackageName=? limit ?,?"
         val offset = pageIndex * pageSize
         val values = "[\'$lib\',$offset,$pageSize]"
-        return httpService.getApk_LibList(bql, values).flatMap { list: ListResult<RelationApkLib> ->
+        return httpService.getApkLibList(bql, values).flatMap { list: ListResult<RelationApkLib> ->
             val size = list.results?.size!!
             if (size > 0) {
                 val bql = "select * from app_info where packageName in (" + Array(size, { "?" }).joinToString(",") + ")"
@@ -120,10 +123,10 @@ class DataRepository private constructor(private val context: Context) {
      * 根据packageName查询lib详情
      */
     fun getLibByPackageName(packageName: String): Observable<ListResult<LibInfo>> {
-        val bql = "select count(*) from r_apk_lib where libPackageName=? group by libPackageName"
+        val bql = "select count(*) from $TABLE_R_APK_LIB where libPackageName=? group by libPackageName"
         val values = "[\'$packageName\']"
-        return httpService.getApk_LibList(bql, values).flatMap { result ->
-            val bql = "select * from lib_info where packageName=?"
+        return httpService.getApkLibList(bql, values).flatMap { result ->
+            val bql = "select * from $TABLE_LIB_INFO where packageName=?"
             val count = result.results?.get(0)?._count
             return@flatMap httpService.getLibList(bql, values).map { result ->
                 result.results?.get(0)?._count = count!!
@@ -134,13 +137,18 @@ class DataRepository private constructor(private val context: Context) {
     }
 
     /**
-     * 应用搜索
+     * 统计目前有多少App
      */
-    fun searchAppByKeyword(keyword: String, pageIndex: Int, pageSize: Int): Observable<ListResult<AppInfo>> {
-        val bql = "select * from app_info where name like \'%?%\' limit ?,? order by downloadCount desc"
-        val offset = pageIndex * pageSize
-        val values = "[\'$keyword\',$offset,$pageSize]"
-        return httpService.getAppList(bql, values)
+    fun getAppCount(): Observable<ListResult<Map<String,String>>> {
+        val bql = "select count(*) from app_info"
+        return httpService.getCount(bql)
+    }
+    /**
+     * 统计目前解析了多少Apk
+     */
+    fun getApkCount():Observable<ListResult<Map<String,String>>>{
+        val bql = "select count(*) from apk_info"
+        return httpService.getCount(bql)
     }
 
     companion object {
